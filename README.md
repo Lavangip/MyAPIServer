@@ -57,12 +57,20 @@ CREATE DATABASE myapiserverdb;
 
 ### 6. Initialize Database with Provided Data
 ```sh
-psql -U postgres -d myapiserverdb -f "C:/Users/lavan/OneDrive/Desktop/New folder/APIServerProject/indian_banks/indian_banks.sql"
+psql -U postgres -d myapiserverdb -f "path to indian_banks.sql in the indian_banks folder"
 ```
 
 ### 7. Populate the `branches` Table
+Here the originally provided branches.csv which was encoded in WIN1252 (Windows-1252) is not used rather the UTF-8 encode version of the same file is used as, PostgreSQL expects UTF-8.
+The steps to get UTF-8 encoded csv file.
+NOTE: the UTF-8 file is already provided in the repository.
 ```sh
-\copy branches(ifsc, bank_id, branch, address, city, district, state, bank_name) FROM 'C:/Users/lavan/OneDrive/Desktop/New folder/APIServerProject/indian_banks/bank_branches_utf8.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',');
+Get-Content "path to _branches.csv in indian_banks folder" | 
+Set-Content -Encoding utf8 "path to _utf8.csv file in indian_banks folder"
+```
+Populating the 'branches' table
+```sh
+\copy branches(ifsc, bank_id, branch, address, city, district, state, bank_name) FROM 'path to _utf8.csv file in indian_banks folder' WITH (FORMAT csv, HEADER true, DELIMITER ',');
 ```
 
 ### 8. Run Test Cases
@@ -75,15 +83,12 @@ pytest bank_api/test_main.py
 uvicorn bank_api.main:app --reload
 ```
 
-### 🔗 API Documentation
-Once the server is running, access the API documentation at:
-- **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **ReDoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
-
----
 
 ## 📸 Snapshots
-
+![Live API Screenshot](https://github.com/Lavangip/MyAPIServer/blob/main/Workin_Snapshots/Get_branch_info.png)
+![Live API Screenshot](https://github.com/Lavangip/MyAPIServer/blob/main/Workin_Snapshots/get_banks.png)
+![Live API Screenshot](https://github.com/Lavangip/MyAPIServer/blob/main/Workin_Snapshots/invalid_branch.png)
+![Live API Screenshot](https://github.com/Lavangip/MyAPIServer/blob/main/Workin_Snapshots/Testcases.png)
 
 ---
 
