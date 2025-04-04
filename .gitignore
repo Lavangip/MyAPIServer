@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+*.dll
+*.dylib
+*.pyd
+
+# Virtual environment
+myenv/
+venv/
+
+# Environment variables
+.env
+
+# Logs and databases
+*.log
+test.db
+
+# Python test cache
+.pytest_cache/
+
+# VS Code settings
+.vscode/
