@@ -11,12 +11,16 @@ SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"  # Using SQLite for testing
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Create test database
+# Create test database tables
 Base.metadata.create_all(bind=engine)
 
 @pytest.fixture
 def db():
     session = TestingSessionLocal()
+    # Clean up the tables before each test to avoid IntegrityError
+    session.query(Branch).delete()
+    session.query(Bank).delete()
+    session.commit()
     try:
         yield session
     finally:
@@ -41,6 +45,10 @@ def test_get_banks(client, db):
 
 def test_get_branch(client, db):
     # Add test data
+    bank = Bank(id=1, name="Test Bank")
+    db.add(bank)
+    db.commit()
+
     branch = Branch(ifsc="TEST1234", bank_id=1, branch="Test Branch", address="123 Test St",
                     city="Test City", district="Test District", state="Test State", bank_name="Test Bank")
     db.add(branch)

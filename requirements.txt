@@ -1,10 +1,8 @@
-fastapi 
-uvicorn 
-psycopg2 
-asyncpg 
+fastapi
+uvicorn
 sqlalchemy
-psycopg2-binary
+asyncpg
 python-dotenv
-pytest 
+pytest
 httpx
 pytest-asyncio
