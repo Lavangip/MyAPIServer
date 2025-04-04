@@ -79,7 +79,7 @@ The steps to get UTF-8 encoded csv file.
 NOTE: the UTF-8 file is already provided in the repository.
 
 ```sh
-Get-Content "path to _branches.csv in indian_banks folder" | 
+Get-Content "path to _branches.csv in indian_banks folder"
 Set-Content -Encoding utf8 "path to _utf8.csv file in indian_banks folder"
 ```
 
